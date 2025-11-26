@@ -5,7 +5,7 @@ BaseGeometry = __import__('7-base_geometry').BaseGeometry
 
 class Rectangle(BaseGeometry):
     ''' Class name is Rectangle
-        BaseGeometry is the parent (or superclass) of Rectangle 
+        BaseGeometry is the parent (or superclass) of Rectangle
         This means Rectangle inherits all methods of BaseGeometry
         Rectangle is a child (subclass) of BaseGeometry
     '''
