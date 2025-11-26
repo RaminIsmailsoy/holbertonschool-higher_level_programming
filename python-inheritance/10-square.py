@@ -5,7 +5,7 @@ Rectangle = __import__('9-rectangle').Rectangle
 
 class Square(Rectangle):
     ''' 
-    Rectangle is the parent (superclass) of Square  
+    Rectangle is the parent (superclass) of Square
     Square is a subclass (child) of Rectangle
     Square automatically gets all methods and attributes of Rectangle
     '''
