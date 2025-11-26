@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+""" Real definition of a rectangle"""
+
 class Rectangle:
       def __init__(self, width=0, height=0):
         """Initialization of Instance"""
