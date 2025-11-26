@@ -12,4 +12,3 @@ class MyInt(int):
     def __ne__(self, other):
         '''Invert inequality'''
         return not super().__ne__(other)
-
