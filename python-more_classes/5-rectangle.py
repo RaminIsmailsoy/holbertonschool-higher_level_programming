@@ -54,17 +54,14 @@ class Rectangle:
     def __str__(self):
         """Method to print the rectangle"""
 
-        # Checking if height and width is equal to 0
         if self.__height == 0 or self.__width == 0:
-            print()
-        else:
-
-            # Creating string for printing
-            rectangle = ""
-            for i in range(self.__height - 1):
-                rectangle += (self.__width * "#" + '\n')
-            rectangle += (self.__width * "#")
-            return rectangle
+            return ""
+    
+        rectangle = ""
+        for i in range(self.__height - 1):
+            rectangle += (self.__width * "#" + '\n')
+        rectangle += (self.__width * "#")
+        return rectangle
 
     def __repr__(self):
         """Method to return recreateable instance"""
