@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""This module defines a Rectangle class."""
+
 class Rectangle:
     """Class representing rectangle"""
 
@@ -56,9 +58,8 @@ class Rectangle:
 
         # Checking if height and width is equal to 0
         if self.__height == 0 or self.__width == 0:
-            print()
+            return ""
         else:
-
             # Creating string for printing
             rectangle = ""
             for i in range(self.__height - 1):
