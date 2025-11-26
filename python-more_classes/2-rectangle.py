@@ -1,7 +1,11 @@
 #!/usr/bin/python3
+"""
+This module defines a Rectangle class with width and height,
+and methods to compute area and perimeter.
+"""
+
 class Rectangle:
     """Class representing rectangle"""
-
     def __init__(self, width=0, height=0):
         """Initialization of Instance"""
         self.width = width
@@ -20,8 +24,6 @@ class Rectangle:
     @width.setter
     def width(self, value):
         """Setter for width"""
-
-        # Checking if value is not valid
         if not isinstance(value, int):
             raise TypeError("width must be an integer")
         if value < 0:
@@ -31,8 +33,6 @@ class Rectangle:
     @height.setter
     def height(self, value):
         """Setter for height"""
-
-        # Checking if value is not valid
         if not isinstance(value, int):
             raise TypeError("height must be an integer")
         if value < 0:
