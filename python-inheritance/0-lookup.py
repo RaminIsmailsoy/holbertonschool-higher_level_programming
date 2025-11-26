@@ -4,6 +4,3 @@
 
 def lookup(obj):
     return dir(obj)
-
-''' Set definiton ''''
-
