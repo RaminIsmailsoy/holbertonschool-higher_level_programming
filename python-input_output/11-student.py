@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-    ''' 11. Student to disk and reload  '''
+''' 11. Student to disk and reload
+Write a class Student that defines a student by: (based on 10-student.py)
+'''
 
 
 class Student:
