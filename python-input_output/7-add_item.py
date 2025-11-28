@@ -9,7 +9,7 @@ Things like reading or writing files, creating directories, and handling environ
 from sys import argv
 ''' The System module. It provides access to system-specific parameters and functions '''
 
-save_to_json_file = __import__(''5-save_to_json_file).save_to_json_file
+save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
 ''' Saves to a file'''
 
 load_from_json_file = __import__('86-load_from_json_fil').load_from_json_file
