@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
-''' Task 6. Create object from a JSON file '''
-''' Write a function that creates an Object from a JSON file '''
+''' Task 6. Create object from a JSON file. Write a function that creates an Object from a JSON file '''
 
 
 from json import loads
