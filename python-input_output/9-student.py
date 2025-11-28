@@ -13,7 +13,7 @@ class Student:
     def __init__(self, first_name, last_name, age):
 
         ''' Initialize Student class '''
-        ''' Method is automatically called when a new Student object is created'''
+        ''' Method is automatically called when Student object is created'''
         ''' self refers to the current object being created .'''
 
         self.first_name = first_name
