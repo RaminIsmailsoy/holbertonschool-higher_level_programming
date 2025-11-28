@@ -5,7 +5,9 @@
 
 from json import dumps
 
-''' Import dumps function from json module. Python has a built-in module called json '''
+''' This line imports the dumps function from Pythons built-in json module '''
 
 def to_json_string(my_obj):
+
+    ''' Define a new function '''
     return dumps(my_obj)
