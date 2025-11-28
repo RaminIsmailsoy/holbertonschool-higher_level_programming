@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-''' Task 9. Student to JSON '''
+''' Task 9. Student to JSON
+Write a class Student that defines a student by:
+Public instance attributes: first_name, last_name, age
+'''
 
 
 class Student:
