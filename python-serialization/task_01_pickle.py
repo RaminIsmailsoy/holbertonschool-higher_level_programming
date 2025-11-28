@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-"""Defines class and serializes it"""
+
+"""
+Converting CSV Data to JSON Format
+Begin by importing the required modules: python import csv import json
+Define a function named convert_csv_to_json that takes the CSV filename
+"""
+
+
 import pickle
 
 
 class CustomObject:
-    """class displays attributes
-    Args:
-        name: string
-        age: integer
-        is_student: boolean
-    """
+    """ class displays attributes """
+
     def __init__(self, name, age, is_student):
         """method initializes object"""
         self.name = name
@@ -18,12 +21,14 @@ class CustomObject:
 
     def display(self):
         """method prints out attributes"""
+
         print(f"Name: {self.name}")
         print(f"age: {self.age}")
         print(f"Is Student: {self.is_student}")
 
     def serialize(self, filename):
         """method serializes the current instance of the object"""
+
         try:
             with open(filename, "wb") as f:
                 pickle.dump(self, f)
@@ -33,6 +38,7 @@ class CustomObject:
     @classmethod
     def deserialize(cls, filename):
         """method returns instance of custom object"""
+
         try:
             with open(filename, "rb") as f:
                 ret = pickle.load(f)
