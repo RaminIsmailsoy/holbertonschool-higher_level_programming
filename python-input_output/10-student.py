@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 
-''' Task 10. Student to JSON with filter '''
+''' Task 10. Student to JSON with filter
+Write a class Student that defines a student by: (based on 9-student.py)
+'''
 
 
 class Student:
@@ -16,7 +18,7 @@ class Student:
         self.age = age
 
     def to_json(self, attrs=None):
-        
+
         ''' This is a method '''
 
         if (type(attrs) is list and
