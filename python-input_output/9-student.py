@@ -13,8 +13,8 @@ class Student:
     def __init__(self, first_name, last_name, age):
 
         ''' Initialize Student class '''
-        ''' This method is automatically called when a new Student object is created'''
-        ''' self  refers to the current object being created .'''
+        ''' Method is automatically called when a new Student object is created'''
+        ''' self refers to the current object being created .'''
 
         self.first_name = first_name
         self.last_name = last_name
@@ -22,7 +22,7 @@ class Student:
 
     def to_json(self):
 
-        ''' to_json is a method that returns a dictionary representation of the object'''
+        ''' to_json is a method that returns a dictionary of the object'''
         ''' It can be converted to JSON. '''
 
         return self.__dict__
