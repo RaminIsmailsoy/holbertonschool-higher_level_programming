@@ -5,14 +5,14 @@
 
 def pascal_triangle(n):
 
-    ''' Defines a function named pascal_triangle that takes one parameter ''' 
+    ''' Defines a function named pascal_triangle that takes one parameter '''
 
     if n <= 0:
         return []
 
     ''' If n is 0 or negative, return an empty list '''
 
-    triangles = [[1]] 
+    triangles = [[1]]
 
     ''' Start the triangle with the first row '''
 
