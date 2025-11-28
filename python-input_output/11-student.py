@@ -30,6 +30,5 @@ class Student:
 
         ''' Replace all attributes of the Student '''
 
-
         for k, v in json.items():
             setattr(self, k, v)
