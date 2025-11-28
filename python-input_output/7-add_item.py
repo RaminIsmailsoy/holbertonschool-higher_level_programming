@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-''' Task 7.
+''' Task 7. Load, add, save
 Write a script that adds all arguments to a Python list,
 and then save them to a file '''
 
