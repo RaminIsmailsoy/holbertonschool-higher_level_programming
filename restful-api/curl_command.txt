@@ -1,0 +1,4 @@
+Upon running curl --version, you should see details about your installed version of curl, including supported protocols.
+Fetching posts from JSONPlaceholder should provide a JSON output of various posts, each having attributes like userId, id, title, and body.
+Fetching only headers should give a concise output showing status codes and headers without the actual content.
+Making a POST request should yield a response from the server acknowledging the reception of the data. For JSONPlaceholder, it typically returns the created post with an id of 101 (since it doesn’t actually save the new post, but simulates the creation)
