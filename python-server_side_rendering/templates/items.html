@@ -1,21 +1,24 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Items List</title>
-    </head>
-    <body>
-        {% include 'header.html' %}
-        <main>
-            {% if items %}
-            <ul>
-                {% for item in items %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <p>No items found</p>
-            {% endif %}
-        </main>
-        {% include 'footer.html' %}
-    </body>
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Items List</title>
+</head>
+<body>
+    <h1>Items List</h1>
+    
+    {# Jinja Conditional: Check if the 'items' list is not empty #}
+    {% if items %}
+        <h2>Available Items ({{ items|length }}):</h2>
+        <ul>
+        {# Jinja Loop: Iterate over the list of items #}
+        {% for item in items %}
+            <li>{{ item }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h2>No items found</h2>
+        <p>The list of items is currently empty. Please check the data source.</p>
+    {% endif %}
+
+</body>
 </html>

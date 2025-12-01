@@ -1,46 +1,47 @@
-from flask import Flask, render_template, request
-from read_json import read, read_csv, read_json
+#!/usr/bin/python3
+''' Creating a Dynamic Template with Loops and Conditions in Flask '''
 
+from flask import Flask, render_template
+import json
+import os
 
+# Initialize the Flask application
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+# Helper function to load data from items.json
+def load_items_from_json(filename='items.json'):
+    """
+    Reads the list of items from the specified JSON file.
+    Includes robust error handling for file not found or invalid JSON format.
+    """
+    # Determine the correct file path relative to the script
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(base_dir, filename)
 
-@app.route('/about')
-def about():
-      return render_template('about.html')
-
-@app.route('/contact')
-def contact():
-      return render_template('contact.html')
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+            # Safely get the "items" list, defaulting to an empty list if key is missing
+            return data.get("items", [])
+    except FileNotFoundError:
+        print(f"Error: {filename} not found at {file_path}")
+        return []
+    except json.JSONDecodeError:
+        print(f"Error: Could not decode JSON from {filename}. Check file format.")
+        return []
 
 @app.route('/items')
 def items():
-      
-      file_name = "items.json"
-      items = read(file_name)
-      return render_template('items.html', items=items)
+    """
+    Loads data from items.json and renders items.html with the list.
+    """
+    item_list = load_items_from_json()
 
-@app.route('/products')
-def display_products():
-    source = request.args.get('source')
-    product_id = request.args.get('id')
+    # Pass the list to the template using the variable name 'items'
+    return render_template('items.html', items=item_list)
 
-    if source == 'json':
-        products = read_json()
-    elif source == 'csv':
-        products = read_csv()
-    else:
-        return render_template('product_display.html', error="Wrong source")
-    
-    if product_id:
-        products = [product for product in products if str(product['id']) == product_id]
-        if not products:
-            return render_template('product_display.html', error="Product not found")
-	
-    return render_template('product_display.html', products=products)
+# --- Server Execution ---
 
 if __name__ == '__main__':
-       app.run(debug=True, port=5000)
+    # Run the application on port 5000 with debug mode enabled
+    app.run(debug=True, port=5000)
