@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 ''' Extending Dynamic Data Display to Include SQLite in Flask '''
 
+import os
+if os.path.exists("products.db"):
+    os.remove("products.db")
 
 from flask import Flask, render_template, request
 import sqlite3
