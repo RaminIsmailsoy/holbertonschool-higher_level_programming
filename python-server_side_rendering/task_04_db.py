@@ -1,97 +1,115 @@
 #!/usr/bin/python3
 ''' Extending Dynamic Data Display to Include SQLite in Flask '''
 
+
+from flask import Flask, render_template, request
 import sqlite3
+import json
+import csv
 import os
-from sqlite3 import OperationalError
 
-DB_FILE = 'products.db'
+app = Flask(__name__)
 
-def ensure_database():
-    """
-    Ensure products.db exists and contains the Products table with the
-    two required rows. If file missing or table missing, create/populate it.
-    """
-    create_needed = False
 
-    # If DB file doesn't exist, we'll create it and insert rows
-    if not os.path.exists(DB_FILE):
-        create_needed = True
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
 
-    # Check if Products table exists
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+
+@app.route('/items')
+def items():
     try:
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Products'")
-        table = cursor.fetchone()
-        if table is None:
-            create_needed = True
-    except OperationalError:
-        # If some DB corruption, we'll recreate file: close, remove, and set create_needed
-        conn.close()
-        if os.path.exists(DB_FILE):
-            try:
-                os.remove(DB_FILE)
-            except OSError:
-                # If removal fails, re-raise later by letting the caller handle
-                pass
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        create_needed = True
+        with open('items.json') as f:
+            data = json.load(f)
+        items = data.get('items', [])
+        return render_template('items.html', items=items)
+    except FileNotFoundError:
+        return "Items file not found", 404
+    except json.JSONDecodeError:
+        return "Error decoding JSON", 500
 
-    if create_needed:
-        # (re)create table and insert example rows
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS Products (
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                category TEXT NOT NULL,
-                price REAL NOT NULL
-            )
-        ''')
-        # Clear any existing rows with same ids to avoid duplicate PK errors
-        cursor.execute("DELETE FROM Products WHERE id IN (1,2)")
-        cursor.execute('''
-            INSERT OR REPLACE INTO Products (id, name, category, price)
-            VALUES
-                (1, 'Laptop', 'Electronics', 799.99),
-                (2, 'Coffee Mug', 'Home Goods', 15.99)
-        ''')
-        conn.commit()
 
-    conn.close()
+def read_json(file_path):
+    with open(file_path, 'r') as file:
+        return json.load(file)
+
+
+def read_csv(file_path):
+    products = []
+    with open(file_path, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            row['id'] = int(row['id'])
+            row['price'] = float(row['price'])
+            products.append(row)
+    return products
 
 
 def fetch_data_from_sqlite():
-    """
-    Read products from SQLite and return list[dict]. If database/table missing,
-    ensure_database() will create it and then we try again. Handle DB errors.
-    """
-    try:
-        # Ensure DB/table present before query
-        ensure_database()
+    conn = sqlite3.connect('products.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Products')
+    rows = cursor.fetchall()
+    conn.close()
 
-        conn = sqlite3.connect(DB_FILE)
-        cursor = conn.cursor()
-        cursor.execute('SELECT id, name, category, price FROM Products')
-        rows = cursor.fetchall()
-        conn.close()
+    products = []
+    for row in rows:
+        product = {
+            'id': row[0],
+            'name': row[1],
+            'category': row[2],
+            'price': row[3]
+        }
+        products.append(product)
 
-        products = []
-        for row in rows:
-            product = {
-                'id': int(row[0]),
-                'name': row[1],
-                'category': row[2],
-                'price': float(row[3])
-            }
-            products.append(product)
+    print(products)
+    return products
 
-        return products
 
-    except sqlite3.DatabaseError as e:
-        # Log or print for debugging (tests expect graceful handling)
-        print("Database error:", e)
-        # Return None or raise a custom exception; in your route we render an error page
-        return None
+@app.route('/products')
+def products():
+    source = request.args.get('source')
+    product_id = request.args.get('id')
+    file_path = ''
+
+    if source == 'json':
+        file_path = 'products.json'
+    elif source == 'csv':
+        file_path = 'products.csv'
+    elif source == 'sql':
+        products = fetch_data_from_sqlite()
+    else:
+        return render_template('product_display.html', error="Wrong source")
+
+    if source != 'sql' and not os.path.exists(file_path):
+        return render_template('product_display.html', error="File not found")
+
+    if source == 'json':
+        products = read_json(file_path)
+    elif source == 'csv':
+        products = read_csv(file_path)
+
+    if product_id:
+        try:
+            product_id = int(product_id)
+            products = [p for p in products if p['id'] == product_id]
+            if not products:
+                return render_template('product_display.html', error="Product not found")
+        except ValueError:
+            return render_template('product_display.html', error="Invalid id")
+
+    return render_template('product_display.html', products=products)
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
